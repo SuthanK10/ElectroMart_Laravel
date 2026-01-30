@@ -115,7 +115,7 @@ class ProductManager extends Component
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
-            'image' => $this->isEdit ? 'nullable|image|max:1024' : 'required|image|max:1024',
+            'image' => $this->isEdit ? 'nullable|image|max:10240' : 'required|image|max:10240',
             'variants.*.type' => 'required|string',
             'variants.*.value' => 'required|string',
             'variants.*.stock' => 'required|integer',
@@ -131,7 +131,7 @@ class ProductManager extends Component
         ];
 
         if ($this->image) {
-            $data['image_path'] = $this->image->store('products', 'public');
+            $data['image_path'] = $this->image->store('products');
         }
 
         $product = null;
@@ -156,7 +156,7 @@ class ProductManager extends Component
 
             // Handle Image Upload
             if (isset($variantData['new_image']) && $variantData['new_image']) {
-                $variantAttributes['image_path'] = $variantData['new_image']->store('variants', 'public');
+                $variantAttributes['image_path'] = $variantData['new_image']->store('variants');
             } elseif (isset($variantData['image_path'])) {
                  $variantAttributes['image_path'] = $variantData['image_path'];
             }

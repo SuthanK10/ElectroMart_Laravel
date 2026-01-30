@@ -1,1 +1,1 @@
-web: php artisan serve --host=0.0.0.0 --port=$PORT
+web: mkdir -p storage/framework/lines storage/framework/views storage/framework/sessions storage/framework/cache storage/framework/livewire-tmp && chmod -R 775 storage && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT

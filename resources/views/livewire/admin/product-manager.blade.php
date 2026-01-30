@@ -59,7 +59,7 @@
                                     <div class="flex items-center gap-8">
                                         <div class="w-20 h-24 bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/10 transition-all group-hover:shadow-lg">
                                             @if($product->image_path)
-                                                <img src="{{ str_starts_with($product->image_path, 'http') ? $product->image_path : asset('storage/' . $product->image_path) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                                <img src="{{ str_starts_with($product->image_path, 'http') ? $product->image_path : \Illuminate\Support\Facades\Storage::url($product->image_path) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                             @else
                                                 <div class="w-full h-full flex items-center justify-center font-black text-slate-200 dark:text-slate-800 italic text-[8px] uppercase tracking-widest leading-none">NO IMAGE</div>
                                             @endif
@@ -256,7 +256,7 @@
                                                          @if(isset($variants[$index]['new_image']) && $variants[$index]['new_image'])
                                                             <img src="{{ $variants[$index]['new_image']->temporaryUrl() }}" class="w-full h-full object-cover">
                                                          @elseif(isset($variants[$index]['image_path']))
-                                                             <img src="{{ str_starts_with($variants[$index]['image_path'], 'http') ? $variants[$index]['image_path'] : asset('storage/' . $variants[$index]['image_path']) }}" class="w-full h-full object-cover">
+                                                             <img src="{{ str_starts_with($variants[$index]['image_path'], 'http') ? $variants[$index]['image_path'] : \Illuminate\Support\Facades\Storage::url($variants[$index]['image_path']) }}" class="w-full h-full object-cover">
                                                          @else
                                                              <div class="w-full h-full flex items-center justify-center text-slate-300 text-[8px] font-black">+</div>
                                                          @endif

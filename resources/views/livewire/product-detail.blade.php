@@ -18,7 +18,7 @@
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/5 to-transparent pointer-events-none"></div>
                     
                     @if($currentImage)
-                        <img src="{{ str_starts_with($currentImage, 'http') ? $currentImage : asset('storage/' . $currentImage) }}" class="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-110">
+                        <img src="{{ str_starts_with($currentImage, 'http') ? $currentImage : \Illuminate\Support\Facades\Storage::url($currentImage) }}" class="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-110">
                     @else
                         <div class="w-full h-full flex items-center justify-center italic text-slate-100 dark:text-slate-800 font-black text-6xl">NO IMAGE</div>
                     @endif

@@ -64,7 +64,7 @@
                     
                     <a href="{{ route('products.show', $product->slug) }}" class="block w-full h-full">
                         @if($product->image_path)
-                            <img src="{{ str_starts_with($product->image_path, 'http') ? $product->image_path : asset('storage/' . $product->image_path) }}" 
+                            <img src="{{ str_starts_with($product->image_path, 'http') ? $product->image_path : \Illuminate\Support\Facades\Storage::url($product->image_path) }}" 
                                  alt="{{ $product->name }}" 
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=No+Image';"

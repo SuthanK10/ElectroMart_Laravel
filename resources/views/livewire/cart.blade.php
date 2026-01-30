@@ -18,7 +18,7 @@
                             <!-- Image Container -->
                             <div class="w-40 h-40 bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/5">
                                 @if($item['image'])
-                                    <img src="{{ str_starts_with($item['image'], 'http') ? $item['image'] : asset('storage/' . $item['image']) }}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    <img src="{{ str_starts_with($item['image'], 'http') ? $item['image'] : \Illuminate\Support\Facades\Storage::url($item['image']) }}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center font-black text-slate-200 dark:text-slate-700 text-xs uppercase tracking-widest">No Image</div>
                                 @endif

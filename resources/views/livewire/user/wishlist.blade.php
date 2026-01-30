@@ -23,7 +23,7 @@
                     <div class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-[2rem] p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="relative aspect-square mb-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl overflow-hidden">
                             @if($item->product->image_path)
-                                <img src="{{ str_starts_with($item->product->image_path, 'http') ? $item->product->image_path : asset('storage/' . $item->product->image_path) }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <img src="{{ str_starts_with($item->product->image_path, 'http') ? $item->product->image_path : \Illuminate\Support\Facades\Storage::url($item->product->image_path) }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             @else
                                 <span class="text-slate-300 dark:text-slate-600 font-black text-4xl italic">Img</span>
                             @endif

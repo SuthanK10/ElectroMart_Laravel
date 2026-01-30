@@ -27,7 +27,7 @@
                             <div class="flex items-center justify-between group">
                                 <div class="flex items-center gap-6">
                                     <div class="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-2xl p-3 border border-slate-100 dark:border-white/5">
-                                        <img src="{{ str_starts_with($item->product->image_path, 'http') ? $item->product->image_path : asset('storage/' . $item->product->image_path) }}" 
+                                        <img src="{{ str_starts_with($item->product->image_path, 'http') ? $item->product->image_path : \Illuminate\Support\Facades\Storage::url($item->product->image_path) }}" 
                                              class="w-full h-full object-contain">
                                     </div>
                                     <div>
