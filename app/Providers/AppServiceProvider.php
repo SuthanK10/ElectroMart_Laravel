@@ -19,9 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (env('APP_ENV') !== 'local') {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
-        }
+        \Illuminate\Support\Facades\URL::forceScheme('https');
 
         \Illuminate\Support\Facades\Gate::define('admin', function ($user) {
             return $user->role === 'admin';

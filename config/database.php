@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', !empty(env('MYSQLHOST')) ? 'mysql' : 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('MYSQL_URL', env('DB_URL')),
+            // 'url' => env('MYSQL_URL', env('DB_URL')),
             'host' => env('MYSQLHOST', env('DB_HOST', '127.0.0.1')),
             'port' => env('MYSQLPORT', env('DB_PORT', '3306')),
             'database' => env('MYSQLDATABASE', env('DB_DATABASE', 'laravel')),
