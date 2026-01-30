@@ -48,7 +48,7 @@ return [
             // 'url' => env('MYSQL_URL', env('DB_URL')),
             'host' => env('MYSQLHOST', env('DB_HOST', '127.0.0.1')),
             'port' => env('MYSQLPORT', env('DB_PORT', '3306')),
-            'database' => env('MYSQLDATABASE', env('DB_DATABASE', 'laravel')),
+            'database' => env('DB_DATABASE', env('MYSQLDATABASE', 'laravel')),
             'username' => env('MYSQLUSER', env('DB_USERNAME', 'root')),
             'password' => env('MYSQLPASSWORD', env('DB_PASSWORD', '')),
             'unix_socket' => env('DB_SOCKET', ''),
