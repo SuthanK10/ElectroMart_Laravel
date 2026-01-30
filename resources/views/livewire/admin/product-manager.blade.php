@@ -59,14 +59,13 @@
                                     <div class="flex items-center gap-8">
                                         <div class="w-20 h-24 bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/10 transition-all group-hover:shadow-lg">
                                             @if($product->image_path)
-                                            @if($product->image_path)
                                                 @php
                                                     try {
                                                         $imageUrl = str_starts_with($product->image_path, 'http') 
                                                             ? $product->image_path 
                                                             : \Illuminate\Support\Facades\Storage::url($product->image_path);
                                                     } catch (\Exception $e) {
-                                                        $imageUrl = 'https://placehold.co/100x120?text=Missing';
+                                                        $imageUrl = 'https://placehold.co/100x120?text=Error';
                                                     }
                                                 @endphp
                                                 <img src="{{ $imageUrl }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
