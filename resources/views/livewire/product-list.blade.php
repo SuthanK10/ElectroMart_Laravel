@@ -64,7 +64,16 @@
                     
                     <a href="{{ route('products.show', $product->slug) }}" class="block w-full h-full">
                         @if($product->image_path)
-                            <img src="{{ str_starts_with($product->image_path, 'http') ? $product->image_path : \Illuminate\Support\Facades\Storage::url($product->image_path) }}" 
+                            @php
+                                try {
+                                    $imageUrl = str_starts_with($product->image_path, 'http') 
+                                        ? $product->image_path 
+                                        : \Illuminate\Support\Facades\Storage::url($product->image_path);
+                                } catch (\Exception $e) {
+                                    $imageUrl = 'https://placehold.co/600x600?text=Missing+File';
+                                }
+                            @endphp
+                            <img src="{{ $imageUrl }}" 
                                  alt="{{ $product->name }}" 
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=No+Image';"
