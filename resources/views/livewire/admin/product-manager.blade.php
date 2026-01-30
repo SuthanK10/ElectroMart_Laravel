@@ -237,13 +237,13 @@
                                             <div class="grid grid-cols-12 gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-white/5 rounded-3xl items-center relative group transition-all hover:bg-white hover:shadow-xl dark:hover:bg-slate-800" wire:key="variant-field-{{ $index }}">
                                                 
                                                 <!-- Type -->
-                                                <div class="col-span-3">
+                                                <div class="col-span-2"> <!-- Reduced to 2 -->
                                                     <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Type</label>
                                                     <input type="text" wire:model="variants.{{ $index }}.type" class="w-full bg-white dark:bg-slate-900 border-none rounded-xl p-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all font-bold text-xs uppercase" placeholder="Color">
                                                 </div>
 
                                                 <!-- Value -->
-                                                <div class="col-span-3">
+                                                <div class="col-span-2"> <!-- Reduced to 2 -->
                                                      <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Value</label>
                                                      <input type="text" wire:model="variants.{{ $index }}.value" class="w-full bg-white dark:bg-slate-900 border-none rounded-xl p-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all font-bold text-xs uppercase" placeholder="Red">
                                                 </div>
@@ -255,15 +255,15 @@
                                                 </div>
 
                                                  <!-- Stock -->
-                                                 <div class="col-span-2">
+                                                 <div class="col-span-1"> <!-- Reduced to 1 -->
                                                      <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Stock</label>
                                                      <input type="number" wire:model="variants.{{ $index }}.stock" class="w-full bg-white dark:bg-slate-900 border-none rounded-xl p-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all font-bold text-xs">
                                                 </div>
                                                 
                                                 <!-- Image Upload -->
-                                                 <div class="col-span-1">
-                                                     <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Img</label>
-                                                     <div class="relative w-10 h-10 overflow-hidden rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 group-hover:border-blue-500 transition-colors">
+                                                 <div class="col-span-2"> <!-- Increased to 2 -->
+                                                     <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Img Upload</label>
+                                                     <div class="relative w-full h-10 overflow-hidden rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 group-hover:border-blue-500 transition-colors">
                                                          @if(isset($variants[$index]['new_image']) && $variants[$index]['new_image'])
                                                             <img src="{{ $variants[$index]['new_image']->temporaryUrl() }}" class="w-full h-full object-cover">
                                                          @elseif(isset($variants[$index]['image_path']))
@@ -282,6 +282,12 @@
                                                          @endif
                                                          <input type="file" wire:model="variants.{{ $index }}.new_image" class="absolute inset-0 opacity-0 cursor-pointer z-10" title="Upload Variant Image">
                                                      </div>
+                                                </div>
+
+                                                <!-- URL Input (New) -->
+                                                <div class="col-span-2">
+                                                    <label class="text-[9px] uppercase font-black text-slate-400 mb-2 block tracking-widest ml-1">Or URL</label>
+                                                    <input type="text" wire:model="variants.{{ $index }}.manual_image_url" class="w-full bg-white dark:bg-slate-900 border-none rounded-xl p-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all font-bold text-[10px] italic placeholder:opacity-30" placeholder="https://...">
                                                 </div>
 
                                                  <div class="col-span-1 flex justify-end">

@@ -69,6 +69,7 @@ class ProductManager extends Component
             'price_modifier' => 0,
             'stock' => 10,
             'image_path' => null,
+            'manual_image_url' => null, // Add manual URL support
             'new_image' => null,
         ];
     }
@@ -103,6 +104,7 @@ class ProductManager extends Component
                 'price_modifier' => $v->price_modifier,
                 'stock' => $v->stock,
                 'image_path' => $v->image_path,
+                'manual_image_url' => $v->image_path, // Pre-fill
                 'new_image' => null,
             ];
         })->toArray();
@@ -124,6 +126,7 @@ class ProductManager extends Component
             'variants.*.type' => 'required|string',
             'variants.*.value' => 'required|string',
             'variants.*.stock' => 'required|integer',
+            'variants.*.manual_image_url' => 'nullable|url', // Validate variant URL
         ]);
 
         $data = [
@@ -164,6 +167,8 @@ class ProductManager extends Component
             // Handle Image Upload
             if (isset($variantData['new_image']) && $variantData['new_image']) {
                 $variantAttributes['image_path'] = $variantData['new_image']->store('variants');
+            } elseif (isset($variantData['manual_image_url']) && !empty($variantData['manual_image_url'])) { // Check manual URL
+                $variantAttributes['image_path'] = $variantData['manual_image_url'];
             } elseif (isset($variantData['image_path'])) {
                  $variantAttributes['image_path'] = $variantData['image_path'];
             }
