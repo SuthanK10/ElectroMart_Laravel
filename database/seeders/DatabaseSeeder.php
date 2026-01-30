@@ -16,20 +16,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Admin User
-        User::factory()->create([
-            'name' => 'Antigravity Admin',
-            'email' => 'admin@electromart.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@electromart.com'],
+            [
+                'name' => 'Antigravity Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'admin',
+            ]
+        );
 
         // Regular User
-        User::factory()->create([
-            'name' => 'Demo Customer',
-            'email' => 'user@electromart.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => 'customer',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'user@electromart.com'],
+            [
+                'name' => 'Demo Customer',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'customer',
+            ]
+        );
 
         // Categories
         $categories = [
@@ -61,19 +65,24 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            $category = \App\Models\Category::create($cat);
+            $category = \App\Models\Category::firstOrCreate(
+                ['slug' => $cat['slug']],
+                ['name' => $cat['name'], 'description' => $cat['description']]
+            );
 
             foreach ($productData[$cat['name']] as $prod) {
-                \App\Models\Product::create([
-                    'category_id' => $category->id,
-                    'name' => $prod['name'],
-                    'slug' => \Illuminate\Support\Str::slug($prod['name']),
-                    'description' => 'The ultimate ' . $prod['name'] . ' for professional creators and tech enthusiasts. Featuring industry-leading performance and stunning design.',
-                    'price' => $prod['price'],
-                    'stock' => rand(5, 20),
-                    'image_path' => $prod['image'], // Using external URL for demo
-                    'is_active' => true,
-                ]);
+                \App\Models\Product::firstOrCreate(
+                    ['slug' => \Illuminate\Support\Str::slug($prod['name'])],
+                    [
+                        'category_id' => $category->id,
+                        'name' => $prod['name'],
+                        'description' => 'The ultimate ' . $prod['name'] . ' for professional creators and tech enthusiasts. Featuring industry-leading performance and stunning design.',
+                        'price' => $prod['price'],
+                        'stock' => rand(5, 20),
+                        'image_path' => $prod['image'],
+                        'is_active' => true,
+                    ]
+                );
             }
         }
     }
