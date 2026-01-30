@@ -16,6 +16,8 @@ class ProductManager extends Component
     public $categories;
     
     public $name, $slug, $description, $price, $stock, $category_id, $image, $product_id;
+    public $manual_image_url; 
+
     public $isEdit = false;
     public $showModal = false;
 
@@ -41,6 +43,7 @@ class ProductManager extends Component
         $this->stock = '';
         $this->category_id = '';
         $this->image = null;
+        $this->manual_image_url = ''; 
         $this->product_id = null;
         $this->isEdit = false;
         $this->variants = [];
@@ -90,6 +93,7 @@ class ProductManager extends Component
         $this->price = $product->price;
         $this->stock = $product->stock;
         $this->category_id = $product->category_id;
+        $this->manual_image_url = $product->image_path; 
         
         $this->variants = $product->variants->map(function($v) {
             return [
@@ -115,7 +119,8 @@ class ProductManager extends Component
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
-            'image' => $this->isEdit ? 'nullable|image|max:10240' : 'required|image|max:10240',
+            'image' => $this->isEdit ? 'nullable|image|max:10240' : ($this->manual_image_url ? 'nullable' : 'required|image|max:10240'),
+            'manual_image_url' => 'nullable|url',
             'variants.*.type' => 'required|string',
             'variants.*.value' => 'required|string',
             'variants.*.stock' => 'required|integer',
@@ -132,6 +137,8 @@ class ProductManager extends Component
 
         if ($this->image) {
             $data['image_path'] = $this->image->store('products');
+        } elseif ($this->manual_image_url) {
+            $data['image_path'] = $this->manual_image_url;
         }
 
         $product = null;

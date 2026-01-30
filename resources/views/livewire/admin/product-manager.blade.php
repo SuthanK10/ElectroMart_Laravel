@@ -203,13 +203,15 @@
 
                                 <div>
                                     <label class="block text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] mb-4 italic">Product Image</label>
-                                    <div class="relative group h-full max-h-[72px]">
+                                    <div class="relative group h-full max-h-[72px] mb-2">
                                         <input type="file" wire:model="image" class="absolute inset-0 opacity-0 cursor-pointer z-10 w-full h-full">
                                         <div class="w-full h-full bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600/5 group-hover:border-blue-600/30 transition-all px-6">
                                             <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ $image ? 'Ready' : 'Upload Image' }}</span>
                                         </div>
                                     </div>
+                                    <input type="text" wire:model="manual_image_url" placeholder="OR Paste Image URL" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 transition-all font-black text-[10px] uppercase tracking-widest italic placeholder:opacity-30">
                                     @error('image') <span class="text-rose-500 text-[10px] font-black uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
+                                    @error('manual_image_url') <span class="text-rose-500 text-[10px] font-black uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                                 </div>
 
                                 <div class="col-span-2">
