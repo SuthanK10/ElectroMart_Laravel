@@ -23,9 +23,14 @@ class OrderSuccess extends Component
 
     public function sendInvoice()
     {
-        Mail::to($this->order->user->email)->send(new OrderInvoice($this->order));
-        $this->mailSent = true;
-        session()->flash('success', 'Professional invoice has been dispatched to your email.');
+        try {
+            Mail::to($this->order->user->email)->send(new OrderInvoice($this->order));
+            $this->mailSent = true;
+            session()->flash('success', 'Professional invoice has been dispatched to your email.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send invoice: ' . $e->getMessage());
+            session()->flash('error', 'Could not send email. Please check your connection or contact support.');
+        }
     }
 
     public function render()
