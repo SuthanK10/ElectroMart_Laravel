@@ -19,9 +19,13 @@ class SendOrderConfirmation implements ShouldQueue
 
     public function handle(OrderPlaced $event): void
     {
-        // Send actual email
-        Mail::to($event->order->user->email)->send(new \App\Mail\OrderInvoice($event->order));
-        
-        Log::info("Order confirmation email sent to user ID: " . $event->order->user_id . " for Order ID: " . $event->order->id);
+        try {
+            // Send actual email
+            Mail::to($event->order->user->email)->send(new \App\Mail\OrderInvoice($event->order));
+            
+            Log::info("Order confirmation email sent to user ID: " . $event->order->user_id . " for Order ID: " . $event->order->id);
+        } catch (\Exception $e) {
+            Log::error("Failed to send order confirmation email: " . $e->getMessage());
+        }
     }
 }
