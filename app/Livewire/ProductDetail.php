@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 
 class ProductDetail extends Component
 {
-    public $product;
+    public \App\Models\Product $product;
 
     public $isWishlisted = false;
 

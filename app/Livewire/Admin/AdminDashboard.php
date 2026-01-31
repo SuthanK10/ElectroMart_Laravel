@@ -16,6 +16,8 @@ class AdminDashboard extends Component
     public $confirmingUserDeletion = false;
     public $userToDeleteId = null;
     public $userToDeleteName = '';
+    public $viewingOrderId = null;
+    public $viewingOrder = null;
 
     public function mount()
     {
@@ -43,6 +45,18 @@ class AdminDashboard extends Component
         $this->userToDeleteName = '';
     }
 
+    public function viewOrderDetails($orderId)
+    {
+        $this->viewingOrderId = $orderId;
+        $this->viewingOrder = Order::with(['items.product', 'user'])->findOrFail($orderId);
+    }
+
+    public function closeOrderDetails()
+    {
+        $this->viewingOrderId = null;
+        $this->viewingOrder = null;
+    }
+
     public function deleteUser()
     {
         if (!$this->userToDeleteId) return;
@@ -52,6 +66,13 @@ class AdminDashboard extends Component
         // Prevent deleting yourself
         if ($user->id === auth()->id()) {
             session()->flash('error', 'You cannot delete your own admin account.');
+            $this->cancelUserDeletion();
+            return;
+        }
+
+        // Prevent deleting any other admin
+        if ($user->isAdmin()) {
+            session()->flash('error', 'System Security: You cannot purge another Administrator account.');
             $this->cancelUserDeletion();
             return;
         }

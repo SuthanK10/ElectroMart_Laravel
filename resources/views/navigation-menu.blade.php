@@ -71,6 +71,7 @@
                                     <p class="text-sm font-bold truncate dark:text-white">{{ Auth::user()->name }}</p>
                                 </div>
                                 <a href="{{ route('profile.show') }}" class="block px-5 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Profile Settings</a>
+                                <a href="{{ route('dashboard') }}" class="block px-5 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Dashboard</a>
                                 @if(!Auth::user()->isAdmin())
                                     <a href="{{ route('orders.history') }}" class="block px-5 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Order History</a>
                                 @endif

@@ -279,6 +279,10 @@
                                     </td>
                                     <td class="px-10 py-8">
                                         <div class="flex items-center gap-2">
+                                            <button wire:click="viewOrderDetails({{ $order->id }})" class="p-2.5 bg-blue-50 dark:bg-blue-600/10 text-blue-600 rounded-xl hover:bg-blue-100 transition-all border border-transparent hover:border-blue-200" title="View Details">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                                            </button>
+                                            
                                             @if($order->status !== 'completed')
                                                 <button wire:click="updateOrderStatus({{ $order->id }}, 'completed')" class="p-2.5 bg-emerald-50 dark:bg-emerald-600/10 text-emerald-600 rounded-xl hover:bg-emerald-100 transition-all border border-transparent hover:border-emerald-200" title="Mark as Completed">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -301,6 +305,91 @@
                     {{ $orders_list->links() }}
                 </div>
             </div>
+
+            <!-- Order Details Modal -->
+            @if($viewingOrderId && $viewingOrder)
+                <div class="fixed inset-0 z-[100] flex items-center justify-center px-4 overflow-hidden">
+                    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-xl animate-fade-in" wire:click="closeOrderDetails"></div>
+                    
+                    <div class="relative w-full max-w-4xl max-h-[90vh] bg-white dark:bg-slate-900 rounded-[3rem] border border-slate-100 dark:border-white/5 shadow-2xl overflow-hidden flex flex-col animate-zoom-in">
+                        <!-- Header -->
+                        <div class="p-8 border-b border-slate-100 dark:border-white/5 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/30">
+                            <div class="flex items-center gap-6">
+                                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-3xl font-['Outfit'] font-black uppercase italic tracking-tighter text-slate-950 dark:text-white">Order #{{ $viewingOrder->id }}</h3>
+                                    <div class="flex items-center gap-3 mt-2">
+                                        <span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest {{ $viewingOrder->status === 'completed' ? 'bg-emerald-100 text-emerald-700' : ($viewingOrder->status === 'cancelled' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700') }}">
+                                            {{ $viewingOrder->status }}
+                                        </span>
+                                        <span class="text-slate-400 text-xs font-bold">{{ $viewingOrder->created_at->format('F d, Y \a\t h:i A') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button wire:click="closeOrderDetails" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+
+                        <!-- Content - Scrollable -->
+                        <div class="p-8 overflow-y-auto custom-scrollbar space-y-8">
+                            <!-- Customer & Shipping -->
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-white/5 space-y-4">
+                                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Customer Details</h4>
+                                    <div class="flex items-center gap-4">
+                                        <img src="{{ $viewingOrder->user->profile_photo_url }}" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <p class="font-black text-slate-900 dark:text-white uppercase italic tracking-tight">{{ $viewingOrder->user->name }}</p>
+                                            <p class="text-xs font-bold text-slate-500">{{ $viewingOrder->user->email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-white/5 space-y-4">
+                                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Shipping Address</h4>
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-300 leading-relaxed">
+                                        {{ $viewingOrder->shipping_address }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4">
+                                <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Order Items ({{ $viewingOrder->items->count() }})</h4>
+                                <div class="space-y-4">
+                                    @foreach($viewingOrder->items as $item)
+                                        <div class="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <div class="flex items-center gap-6">
+                                                <div class="w-16 h-16 bg-white dark:bg-slate-800 rounded-xl p-2 border border-slate-100 dark:border-white/5 flex items-center justify-center">
+                                                    <img src="{{ str_starts_with($item->product->image_path, 'http') ? $item->product->image_path : \Illuminate\Support\Facades\Storage::url($item->product->image_path) }}" class="max-w-full max-h-full object-contain">
+                                                </div>
+                                                <div>
+                                                    <p class="font-black text-slate-900 dark:text-white uppercase italic tracking-tight">{{ $item->product->name }}</p>
+                                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Qty: {{ $item->quantity }} × ${{ number_format($item->price, 2) }}</p>
+                                                </div>
+                                            </div>
+                                            <p class="font-black text-slate-900 dark:text-white">${{ number_format($item->quantity * $item->price, 2) }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="p-8 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                Payment via Stripe
+                            </div>
+                            <div class="flex items-end gap-3">
+                                <span class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-1.5">Total</span>
+                                <span class="text-4xl font-['Outfit'] font-black text-blue-600 tracking-tighter italic">${{ number_format($viewingOrder->total_amount, 2) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         @endif
     </div>
 </div>

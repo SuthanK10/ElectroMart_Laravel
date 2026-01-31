@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class ProductReviews extends Component
 {
-    public $product;
+    public $productId;
     public $rating = 5;
     public $comment = '';
 
@@ -17,7 +17,12 @@ class ProductReviews extends Component
 
     public function mount($product)
     {
-        $this->product = $product;
+        $this->productId = $product->id;
+    }
+
+    public function getProductProperty()
+    {
+        return \App\Models\Product::findOrFail($this->productId);
     }
 
     public function submitReview()
@@ -30,7 +35,7 @@ class ProductReviews extends Component
 
         \App\Models\Review::create([
             'user_id' => \Illuminate\Support\Facades\Auth::id(),
-            'product_id' => $this->product->id,
+            'product_id' => $this->productId,
             'rating' => $this->rating,
             'comment' => $this->comment,
         ]);
