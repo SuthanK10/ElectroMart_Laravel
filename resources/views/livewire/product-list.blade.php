@@ -66,7 +66,7 @@
                         @if($product->image_path)
                             @php
                                 try {
-                                    $imageUrl = str_starts_with($product->image_path, 'http') 
+                                    $imageUrl = str_starts_with($product->image_path, 'http') || str_starts_with($product->image_path, 'data:')
                                         ? $product->image_path 
                                         : \Illuminate\Support\Facades\Storage::url($product->image_path);
                                 } catch (\Exception $e) {

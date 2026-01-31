@@ -25,12 +25,12 @@
 
             <!-- Middle: Search Bar -->
             <div class="hidden md:flex flex-1 max-w-md mx-12">
-                <div class="relative w-full group">
-                    <input type="text" placeholder="Search for premium tech..." class="w-full bg-slate-100/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-blue-500/20 rounded-xl py-2.5 px-5 text-xs font-bold transition-all group-hover:bg-slate-100 dark:group-hover:bg-slate-800">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 pointer-events-none">
+                <form action="{{ route('shop') }}" method="GET" class="relative w-full group">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for premium tech..." class="w-full bg-slate-100/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-blue-500/20 rounded-xl py-2.5 px-5 text-xs font-bold transition-all group-hover:bg-slate-100 dark:group-hover:bg-slate-800">
+                    <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    </div>
-                </div>
+                    </button>
+                </form>
             </div>
 
             <!-- Right Side: Interaction Suite -->
@@ -112,6 +112,9 @@
          x-transition:enter-end="opacity-100 translate-y-0"
          class="xl:hidden fixed inset-x-0 top-[73px] bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg border-b border-slate-100 dark:border-white/5 p-8 shadow-3xl space-y-6 z-[99]">
         <div class="flex flex-col space-y-4 text-center font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+            <form action="{{ route('shop') }}" method="GET" class="px-4 mb-2">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="SEARCH..." class="w-full bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 text-center text-xs font-black uppercase tracking-widest border-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-white">
+            </form>
             <a href="/" class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-blue-600 transition-colors">Home</a>
             <a href="/shop" class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-blue-600 transition-colors">Products</a>
             <a href="/about" class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-blue-600 transition-colors">About</a>

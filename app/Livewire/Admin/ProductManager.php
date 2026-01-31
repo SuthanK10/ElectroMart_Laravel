@@ -94,7 +94,7 @@ class ProductManager extends Component
         $this->price = $product->price;
         $this->stock = $product->stock;
         $this->category_id = $product->category_id;
-        $this->manual_image_url = $product->image_path; 
+        $this->manual_image_url = str_starts_with($product->image_path, 'http') ? $product->image_path : ''; 
         
         $this->variants = $product->variants->map(function($v) {
             return [
@@ -104,7 +104,7 @@ class ProductManager extends Component
                 'price_modifier' => $v->price_modifier,
                 'stock' => $v->stock,
                 'image_path' => $v->image_path,
-                'manual_image_url' => $v->image_path, // Pre-fill
+                'manual_image_url' => str_starts_with($v->image_path, 'http') ? $v->image_path : '', // Pre-fill only if URL
                 'new_image' => null,
             ];
         })->toArray();
@@ -139,7 +139,7 @@ class ProductManager extends Component
         ];
 
         if ($this->image) {
-            $data['image_path'] = $this->image->store('products');
+            $data['image_path'] = $this->image->store('products', 'public');
         } elseif ($this->manual_image_url) {
             $data['image_path'] = $this->manual_image_url;
         }
@@ -166,7 +166,7 @@ class ProductManager extends Component
 
             // Handle Image Upload
             if (isset($variantData['new_image']) && $variantData['new_image']) {
-                $variantAttributes['image_path'] = $variantData['new_image']->store('variants');
+                $variantAttributes['image_path'] = $variantData['new_image']->store('variants', 'public');
             } elseif (isset($variantData['manual_image_url']) && !empty($variantData['manual_image_url'])) { // Check manual URL
                 $variantAttributes['image_path'] = $variantData['manual_image_url'];
             } elseif (isset($variantData['image_path'])) {
