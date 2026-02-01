@@ -19,7 +19,7 @@
         .totals { float: right; width: 300px; }
         .total-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
         .total-row.final { border-bottom: none; font-size: 18px; font-weight: bold; color: #0f172a; margin-top: 10px; }
-        .footer { margin-top: 80px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #eee; padding-top: 20px; }
+        .footer { clear: both; margin-top: 40px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
 <body>
@@ -91,7 +91,7 @@
 
     <div class="footer">
         <p>Thank you for your business!</p>
-        <p>ElectroMart Inc. • 123 Tech Avenue, Silicon Valley, CA</p>
+        <p>ElectroMart Inc. • No. 388 Union Place, Colombo 02, Sri Lanka</p>
     </div>
 </body>
 </html>
